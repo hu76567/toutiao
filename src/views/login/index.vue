@@ -79,8 +79,10 @@ export default {
           // params: {}, // url参数
           data: this.loginForm, // 请求体参数
           method: 'post' // 请求类型,默认是get
-        }).then(result => {
-          console.log(result.data)
+        }).then(res => {
+          console.log(res.data.data.token)
+          // 将token存在本地
+          window.localStorage.setItem('user-token', res.data.data.token)
         }).catch(() => {
 
         })
