@@ -83,8 +83,11 @@ export default {
           console.log(res.data.data.token)
           // 将token存在本地
           window.localStorage.setItem('user-token', res.data.data.token)
+          // 登陆成功，跳转主页
+          this.$router.push('/home')
         }).catch(() => {
-
+          // this.$message({ message: '用户名或验证码错误', type: 'error' })
+          this.$message.error('用户名或验证码错误')
         })
       })
     }
