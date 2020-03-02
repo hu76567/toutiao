@@ -19,7 +19,7 @@
           <el-button style="float:right;width:30%" plain>发送验证码</el-button>
         </el-form-item>
         <el-form-item prop="checked">
-          <el-checkbox v-model="loginForm.checked" style="margin-left:20px;color:#ccc">我已阅读并同意用户协议和隐私条款</el-checkbox>
+          <el-checkbox v-model="loginForm.checked" style="color:#ccc">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-button @click="login" type="primary" style="width:100%">登录</el-button>
@@ -37,7 +37,7 @@ export default {
       loginForm: {
         mobile: '',
         code: '',
-        checked: 'false'
+        checked: false
       },
       // 定义表单验证规则
       loginRules: {
@@ -72,7 +72,18 @@ export default {
       //   }
       // })
       this.$refs.loginForm.validate().then(() => {
-        alert('123')
+        // alert('123')
+        // 校验过后调用接口
+        this.$axios({
+          url: '/authorizations', // 请求地址
+          // params: {}, // url参数
+          data: this.loginForm, // 请求体参数
+          method: 'post' // 请求类型,默认是get
+        }).then(result => {
+          console.log(result.data)
+        }).catch(() => {
+
+        })
       })
     }
   }
