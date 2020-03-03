@@ -9,15 +9,15 @@
      <el-col class="right" :span="12">
          <el-row type="flex" justify="end" align="middle">
            <img :src="userInfo.photo" alt="">
-           <!-- 下拉菜单 -->
-           <el-dropdown trigger="click">
+           <!-- 下拉菜单,注册点击事件 -->
+           <el-dropdown @command="clickMenu" trigger="click">
                <span>{{userInfo.name}}</span>
                <!-- 下拉菜单 -->
                <el-dropdown-menu slot="dropdown">
                    <!-- 下拉选项 -->
-                     <el-dropdown-item>个人信息</el-dropdown-item>
-                     <el-dropdown-item>Github</el-dropdown-item>
-                     <el-dropdown-item>退出</el-dropdown-item>
+                     <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                     <el-dropdown-item command="git">Github</el-dropdown-item>
+                     <el-dropdown-item command="quit">退出</el-dropdown-item>
                </el-dropdown-menu>
            </el-dropdown>
          </el-row>
@@ -30,6 +30,22 @@ export default {
   data () {
     return {
       userInfo: {} // 用来接收个人信息
+    }
+  },
+  methods: {
+    clickMenu (command) {
+    // 接收当前点击的是哪个按钮
+      // alert(command)
+      if (command === 'info') {
+        // 点击个人信息
+      } else if (command === 'git') {
+        // 跳转到git
+        window.location.href = 'https://github.com/iq7ii/toutiao'
+      } else {
+        // 退出系统,删除token,跳转回登录页
+        localStorage.removeItem('user-token') // 清除token
+        this.$router.push('/login')
+      }
     }
   },
   // 实例化之后,钩子函数,获取个人信息
