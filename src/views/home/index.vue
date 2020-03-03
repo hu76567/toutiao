@@ -1,13 +1,13 @@
 <template>
  <el-container>
-    <el-aside style="width:230px">
+    <el-aside style="width:240px">
       <!-- 左侧导航组件 -->
       <layout-aside></layout-aside>
     </el-aside>
   <el-container>
     <!-- 头部 -->
       <el-header>
-          <h1>Header</h1>
+          <layout-ahead></layout-ahead>
       </el-header>
      <!-- 主体 -->
       <el-main>
@@ -22,9 +22,11 @@
 <script>
 // 引入左侧导航组件
 import layoutAside from '@/components/home/layout-aside'
+import layoutAhead from '@/components/home/layout-ahead'
 export default {
   components: {
-    'layout-aside': layoutAside
+    'layout-aside': layoutAside,
+    'layout-ahead': layoutAhead
   }
 }
 </script>
