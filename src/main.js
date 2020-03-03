@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+import '@/permission' // 引入权限模块
 // 引入element-ui模块
 import ElementUI from 'element-ui'
+import axios from 'axios'
+import Components from '@/components'
 // 引入css样式
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/styles/index.less'
-import axios from 'axios'
-import Components from '@/components'
+
 Vue.config.productionTip = false
 
 // 配置公共的请求头地址
