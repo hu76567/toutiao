@@ -103,7 +103,7 @@ export default {
   align-items: center;
   // 毛玻璃效果
   &:before {
-    filter: blur(1px);
+    // filter: blur(1px);
     content: "";
     width: 100%;
     height: 100%;
@@ -112,7 +112,7 @@ export default {
    background-size: cover;
   }
   .login_card {
-    background: rgba(0,0,0,.1);
+    background: rgba(0,0,0,.2);
     z-index: 2;
     border-color: transparent;
     width: 460px;
