@@ -10,8 +10,7 @@
           <layout-ahead></layout-ahead>
       </el-header>
      <!-- 主体 -->
-      <el-main>
-         <h1>Main</h1>
+      <el-main style="padding:0">
          <!-- 此处二级容器 -->
          <router-view></router-view>
       </el-main>
