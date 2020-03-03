@@ -20,14 +20,7 @@
 </template>
 
 <script>
-// 引入左侧导航组件
-import layoutAside from '@/components/home/layout-aside'
-import layoutAhead from '@/components/home/layout-ahead'
 export default {
-  components: {
-    'layout-aside': layoutAside,
-    'layout-ahead': layoutAhead
-  }
 }
 </script>
 
