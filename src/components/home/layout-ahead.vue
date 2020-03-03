@@ -8,11 +8,10 @@
      </el-col>
      <el-col class="right" :span="12">
          <el-row type="flex" justify="end" align="middle">
-             <el-input class="input" placeholder="请输入搜索的文章内容"></el-input>
-           <img src="../../assets/img/user.jpg" alt="">
+           <img :src="userInfo.photo" alt="">
            <!-- 下拉菜单 -->
            <el-dropdown trigger="click">
-               <span>banana</span>
+               <span>{{userInfo.name}}</span>
                <!-- 下拉菜单 -->
                <el-dropdown-menu slot="dropdown">
                    <!-- 下拉选项 -->
@@ -28,7 +27,26 @@
 
 <script>
 export default {
-
+  data () {
+    return {
+      userInfo: {} // 用来接收个人信息
+    }
+  },
+  // 实例化之后,钩子函数,获取个人信息
+  created () {
+    //   从本地缓存中获取token
+    const token = localStorage.getItem('user-token')
+    this.$axios({
+      url: '/user/profile',
+      headers: {
+        // 放置请求头参数 值为token 格式为Bearer 中间有空格
+        Authorization: `Bearer ${token}`
+      },
+      method: 'get'
+    }).then(res => {
+      this.userInfo = res.data.data
+    })
+  }
 }
 </script>
 
@@ -45,10 +63,6 @@ export default {
    }
    .right {
        margin-right: 15px;
-         input {
-             margin-left: 70px;
-              width: 350px
-          }
        img{
            width: 40px;
            height: 40px;
