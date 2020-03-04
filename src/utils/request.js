@@ -2,6 +2,7 @@
 // 对于axios 二次封装
 
 import axios from 'axios'
+import router from '@/router'
 // 写拦截器和其他操作
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 配置公共的请求头地址
 
@@ -9,7 +10,7 @@ axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 配置公�
 axios.interceptors.request.use(function (config) {
   // 成功时执行 ,第一个参数会有一个config  config是所有axios的请求信息
   // 返回config 返回的配置会作为请求参数 进行请求
-  // 再返回之前注入token
+  // 在返回之前注入token
   const token = localStorage.getItem('user-token')
   config.headers.Authorization = `Bearer ${token}`
   debugger
@@ -29,6 +30,12 @@ axios.interceptors.response.use(function (response) {
   // 当请求状态码 不是200/201/204的时候,表示业务执行错了,处理异常
   // error是错误对象里面包含了错误的状态码和响应信息
   // 401 状态码 表示认证失败 用户身份不对
-  return error
+  // 更换token 粗暴的方式 =>返回登录页,清除token
+  if (error.response.status === 401) {
+    //   当前token错误的话,清除token
+    localStorage.removeItem('user-token')
+    router.push('/login')
+  }
+  return Promise.reject(error)
 })
 export default axios
