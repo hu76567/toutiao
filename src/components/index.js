@@ -3,10 +3,12 @@
 // 第一个参数Vue对象
 import layoutAhead from './home/layout-ahead'
 import layoutAside from './home/layout-aside'
+import BreadCrumb from './common/bread-crumb'
 export default {
   install: function (Vue) {
     //  全局注册组件,任意位置都可以用
     Vue.component('layout-ahead', layoutAhead)
     Vue.component('layout-aside', layoutAside)
+    Vue.component('bread-crumb', BreadCrumb) // 面包屑组件
   }
 }
