@@ -50,17 +50,10 @@ export default {
   },
   // 实例化之后,钩子函数,获取个人信息
   created () {
-    //   从本地缓存中获取token
-    const token = localStorage.getItem('user-token')
     this.$axios({
-      url: '/user/profile',
-      headers: {
-        // 放置请求头参数 值为token 格式为Bearer 中间有空格
-        Authorization: `Bearer ${token}`
-      },
-      method: 'get'
+      url: '/user/profile'
     }).then(res => {
-      this.userInfo = res.data.data
+      this.userInfo = res.data
     })
   }
 }

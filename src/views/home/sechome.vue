@@ -12,7 +12,7 @@
 export default {
   data () {
     return {
-      list: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583256211253&di=852f01a6669332ef16080ac4c9457b19&imgtype=0&src=http%3A%2F%2Fimg.jk51.com%2Fimg_jk51%2F57987758.jpeg',
+      list: ['https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583339023654&di=7eff28d4054174bf5c6757da67c9990d&imgtype=0&src=http%3A%2F%2Fworld.haiwainet.cn%2FNMediaFile%2F2014%2F1208%2FLOCAL201412081106000494116029555.jpg',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583256267171&di=07cd103dc44f94c420a552d038f15c53&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F4%2F5147d1f211c31.jpg',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583256392780&di=7c6d6f87ef954a0c51bf862e4bcbd2db&imgtype=jpg&src=http%3A%2F%2Fimg0.imgtn.bdimg.com%2Fit%2Fu%3D3037054080%2C4019486712%26fm%3D214%26gp%3D0.jpg',
         'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583256481750&di=69d5dc213c3624ad94e097fd64e8bb0c&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F8c1001e93901213f0c02bdca57e736d12f2e95f7.jpg',

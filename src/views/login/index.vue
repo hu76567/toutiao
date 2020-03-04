@@ -80,9 +80,9 @@ export default {
           data: this.loginForm, // 请求体参数
           method: 'post' // 请求类型,默认是get
         }).then(res => {
-          console.log(res.data.data.token)
+          // console.log(res.data.data.token)
           // 将token存在本地
-          window.localStorage.setItem('user-token', res.data.data.token)
+          window.localStorage.setItem('user-token', res.data.token)
           // 登陆成功，跳转主页
           this.$router.push('/home')
         }).catch(() => {
