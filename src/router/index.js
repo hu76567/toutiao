@@ -19,6 +19,10 @@ const routes = [{
     {
       path: '', // 二级路由不填写代表二级路由默认组件
       component: Sechome
+    }, {
+      path: 'comment',
+      // 采用按需加载的方式引入
+      component: () => import('@/views/comment')
     }
   ]
 }, {
