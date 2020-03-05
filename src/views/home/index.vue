@@ -1,6 +1,6 @@
 <template>
  <el-container>
-    <el-aside style="width:240px">
+    <el-aside style="width:240px;background:#2e2f32">
       <!-- 左侧导航组件 -->
       <layout-aside></layout-aside>
     </el-aside>
