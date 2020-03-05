@@ -13,7 +13,6 @@ axios.interceptors.request.use(function (config) {
   // 在返回之前注入token
   const token = localStorage.getItem('user-token')
   config.headers.Authorization = `Bearer ${token}`
-  debugger
   return config
 }, function (error) {
   // 失败时执行 axios支持promise 失败了直接reject reject会进入axios的catch中
