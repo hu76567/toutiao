@@ -49,9 +49,12 @@ export default {
 
 <style lang='less' scoped>
   .layout-aside{
-       width: 240px;
-      background-color: #2e2f32;
+    position: fixed;
+    top: 0;
+    left: 0;
+      width: 240px;
       height: 100vh;
+      background-color: #2e2f32;
       .title {
           text-align: center;
           padding: 20px 0;
