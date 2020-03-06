@@ -67,7 +67,8 @@ export default {
           method: 'put',
           // query参数
           params: {
-            article_id: row.id
+            article_id: row.id.toString() // 将处理后的数据转化成字符串
+            // 后端会自动转成大数字
           },
           // body参数
           data: {

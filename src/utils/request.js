@@ -3,6 +3,7 @@
 
 import axios from 'axios'
 import router from '@/router'
+import JsonBig from 'json-bigint'
 // 写拦截器和其他操作
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 配置公共的请求头地址
 
@@ -19,6 +20,12 @@ axios.interceptors.request.use(function (config) {
   return Promise.reject(error)
 })
 
+// 对axios的返回的数据进行自定义处理  json-big 替代=> json
+axios.defaults.transformResponse = [function (data) {
+  // 判断是否为空,不为空则进行数值处理
+  const res = data ? JsonBig.parse(data) : {}
+  return res
+}]
 // 响应拦截器
 axios.interceptors.response.use(function (response) {
   // 成功时执行 第一个参数是响应体
