@@ -7,6 +7,14 @@
             素材管理
         </template>
      </bread-crumb>
+     <!-- 上传组件  show-file-list:false 不显示已上传素材列表-->
+     <el-row type="flex" justify="end" style="margin-right:100px">
+        <el-upload :show-file-list="false" :http-request="uploadImg" action="">
+            <!-- 上传组件必须要有action属性 -->
+           <el-button size="small" type="primary">上传素材</el-button>
+        </el-upload>
+     </el-row>
+
      <!-- v-model所绑定的值是当前所激活的页签 -->
      <el-tabs v-model="actName" @tab-click="cdTab">
          <!-- label表示标签名字 name表示页签选中的值,tab切换的时候,需要进行事件的监听 -->
@@ -85,6 +93,23 @@ export default {
       //   alert(this.actName)
       // actName===all 获取所有 actName===collect 已收藏的素材
       this.getMaterial()
+    },
+    uploadImg (params) {
+    // params.file就是要上传的文件
+    // 接口类型是formdata
+      const data = new FormData()
+      data.append('image', params.file)
+      console.log(data)
+      this.$axios({
+        url: '/user/images',
+        method: 'post',
+        data: data
+      }).then(() => {
+        // 成功要重新拉取数据
+        this.getMaterial()
+      }).catch(() => {
+        this.$message.error('上传失败')
+      })
     }
   },
   created () {
@@ -117,6 +142,6 @@ export default {
                font-size: 20px;
                background-color: #f4f5f6;
            }
-       }
-  }
+        }
+    }
 </style>
