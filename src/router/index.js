@@ -20,9 +20,22 @@ const routes = [{
       path: '', // 二级路由不填写代表二级路由默认组件
       component: Sechome
     }, {
-      path: 'comment',
       // 采用按需加载的方式引入
+      // 发布文章
+      path: 'publish',
+      component: () => import('@/views/publish')
+    }, {
+      // 内容列表
+      path: 'articles',
+      component: () => import('@/views/articles')
+    }, {
+      // 评论列表
+      path: 'comment',
       component: () => import('@/views/comment')
+    }, {
+      // 素材管理
+      path: 'material',
+      component: () => import('@/views/material')
     }
   ]
 }, {

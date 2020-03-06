@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less">
    .zmd{
       /* opacity:0.7; */
       height: 400px;
