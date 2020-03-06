@@ -70,7 +70,7 @@ export default {
           per_page: this.page.pageSize
         }
       }).then(res => {
-        console.log(res)
+        // console.log(res)
         this.list = res.data.results
         this.page.total = res.data.total_count
         // 有返回值关闭加载状态
