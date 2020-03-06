@@ -19,7 +19,7 @@ axios.interceptors.request.use(function (config) {
   // 失败时执行 axios支持promise 失败了直接reject reject会进入axios的catch中
   return Promise.reject(error)
 })
-
+// 解决大数字问题
 // 对axios的返回的数据进行自定义处理  json-big 替代=> json
 axios.defaults.transformResponse = [function (data) {
   // 判断是否为空,不为空则进行数值处理

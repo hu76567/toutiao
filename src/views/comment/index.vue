@@ -22,6 +22,14 @@
          </template>
         </el-table-column>
       </el-table>
+      <!-- 放置分页组件 -->
+      <el-row style="height:50px" type="flex" align="middle" justify="center">
+        <el-pagination background layout="prev, pager, next"
+         :current-page="page.currentPage"
+         :total="page.total"
+         :page-size="page.pageSize"
+         @current-change="pageChange"></el-pagination>
+      </el-row>
   </el-card>
 </template>
 
@@ -29,23 +37,39 @@
 export default {
   data () {
     return {
+      // 分页相关
+      page: {
+        total: 0,
+        currentPage: 1,
+        pageSize: 10 // 每页显示几条数据,不写默认是10
+      },
       list: [
 
       ]
     }
   },
   methods: {
+    // newpage 是当前点击的新页码
+    pageChange (newPage) {
+      // 获取当前页码,赋值给固定值
+      this.page.currentPage = newPage
+      // 重新拉取评论数据
+      this.getComment()
+    },
     getComment () {
       this.$axios({
         url: '/articles',
         // params 传get参数,也就是query参数
         // data   传body参数,也就是请求体参数,
         params: {
-          response_type: 'comment'
+          response_type: 'comment',
+          page: this.page.currentPage,
+          per_page: this.page.pageSize
         }
       }).then(res => {
         console.log(res)
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     },
     // 定义格式化参数
