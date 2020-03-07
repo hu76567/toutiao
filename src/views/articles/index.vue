@@ -10,11 +10,11 @@
              <!-- 单选框组 -->
              <el-radio-group v-model="searchForm.status">
              <!-- 单选框选项 -->
-             <el-radio :label="0">全部</el-radio>
-             <el-radio :label="1">草稿</el-radio>
-             <el-radio :label="2">待审核</el-radio>
-             <el-radio :label="3">审核通过</el-radio>
-             <el-radio :label="4">审核失败</el-radio>
+             <el-radio :label="5">全部</el-radio>
+             <el-radio :label="0">草稿</el-radio>
+             <el-radio :label="1">待审核</el-radio>
+             <el-radio :label="2">已审核</el-radio>
+             <el-radio :label="3">审核失败</el-radio>
              </el-radio-group>
          </el-form-item>
          <el-form-item label="频道类别:">
@@ -33,16 +33,16 @@
      </el-form>
      <!-- 文章主体结构 -->
      <el-row class="total" type="flex" align="middle">
-       <span>共找到888条符合条件的内容</span>
+       <span>共找到条符合条件的内容</span>
      </el-row>
-     <div class="article-item" v-for="item in 100" :key="item">
+     <div class="article-item" v-for="item in list" :key="item.id.toString()">
        <!-- 左侧 -->
        <div class="left">
-          <img src="" alt="">
+          <img :src="item.cover.images.length ? item.cover.images[0] : defaultImg" alt="">
           <div class="info">
-            <span>文章名称</span>
-            <el-tag class="tag">状态</el-tag>
-            <span class="date">日期:</span>
+            <span>{{item.title}}</span>
+            <el-tag :type=" item.status | filterType" class='tag'>{{  item.status  | filterStatus}}</el-tag>
+            <span class="date">{{item.pubdate}}</span>
           </div>
        </div>
        <!-- 右侧 -->
@@ -65,7 +65,9 @@ export default {
         channel_id: null,
         dateRange: [] // 日期范围
       },
-      channels: [] // 专门来接收频道的数据
+      channels: [], // 专门来接收频道的数据
+      list: [],
+      defaultImg: require('../../assets/img/def.jpg')
     }
   },
   methods: {
@@ -76,11 +78,48 @@ export default {
         // 获取频道接口返回的数据
         this.channels = res.data.channels
       })
+    },
+    // 获取文章列表
+    getArticles () {
+      this.$axios({
+        url: '/articles'
+      }).then(res => {
+        this.list = res.data.results
+      })
     }
   },
   created () {
+    // 获取文章数据
+    this.getArticles()
     //   获取频道数据
     this.getChannels()
+  },
+  filters: {
+  // 过滤器
+    filterStatus (value) {
+      switch (value) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已审核'
+        case 3:
+          return '审核失败'
+      }
+    },
+    filterType (value) {
+      switch (value) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return ''
+        case 3:
+          return 'danger'
+      }
+    }
   }
 }
 </script>
@@ -120,9 +159,10 @@ export default {
        }
      }
      .right{
+       line-height: 130px;
         span{
-          font-size: 12px;
-          margin-right: 8px;
+          font-size: 15px;
+          margin-right: 12px;
           cursor: pointer;  //光标显示一只小手
           user-select: none; //文本无法被选择
         }
