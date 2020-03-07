@@ -32,3 +32,4 @@ new Vue({
 // router 路由表配置
 // permission 导航守卫
 // components 普通组件及组件全局注册
+// 无聊
