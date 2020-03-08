@@ -62,6 +62,14 @@ export default {
     }
   },
   methods: {
+    getArticleById (id) {
+      // 根据id 获取数据
+      this.$axios({
+        url: `/articles/${id}`
+      }).then(res => {
+        this.publishForm = res.data
+      })
+    },
     //  获取文章类别
     getChannels () {
       this.$axios({
@@ -77,26 +85,65 @@ export default {
     //     if (isOk) {}
     //   })
       this.$refs.myForm.validate().then(() => {
-        // 调用发布接口
+        const { articleId } = this.$route.params
         this.$axios({
-          url: 'articles',
-          method: 'post',
-          params: {
-            draft: flag // query参数
-          },
-          data: this.publishForm // 请求体参数
+          url: articleId ? `/articles/${articleId}` : 'articles',
+          method: articleId ? 'put' : 'post',
+          params: { draft: flag },
+          data: this.publishForm
         }).then(() => {
-          this.$message.success('发布成功')
+          this.$message.success('操作成功')
           //   跳转到文章列表
           this.$router.push('/home/articles')
         }).catch(() => {
-          this.$message.error('发布失败')
+          this.$message.error('操作失败')
         })
+
+        // **************重复代码简化*********
+        // if (articleId) {
+        // //   修改
+        //   this.$axios({
+        //     url: `/articles/${articleId}`,
+        //     method: 'put',
+        //     params: { draft: flag },
+        //     data: this.publishForm
+        //   }).then(() => {
+        //     this.$message.success('修改成功')
+        //     //   跳转到文章列表
+        //     this.$router.push('/home/articles')
+        //   }).catch(() => {
+        //     this.$message.error('修改失败')
+        //   })
+        // } else {
+        //   // 调用发布接口
+        //   this.$axios({
+        //     url: 'articles',
+        //     method: 'post',
+        //     params: {
+        //       draft: flag // query参数
+        //     },
+        //     data: this.publishForm // 请求体参数
+        //   }).then(() => {
+        //     this.$message.success('发布成功')
+        //     //   跳转到文章列表
+        //     this.$router.push('/home/articles')
+        //   }).catch(() => {
+        //     this.$message.error('发布失败')
+        //   })
+        // }
       })
     }
   },
+  // 判断是否存在参数id   存在就根据id获取数据
   created () {
     this.getChannels()
+    // 解构赋值 获取参数id
+    const { articleId } = this.$router.params
+    // if (articleId) {
+    //   this.getArticleById(articleId)
+    // }
+    // 为true 执行后面逻辑
+    articleId && this.getArticleById(articleId)
   }
 }
 </script>
