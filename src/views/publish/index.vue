@@ -6,15 +6,18 @@
         </template>
      </bread-crumb>
 
-     <!-- 表单组件 双向绑定 -->
+     <!-- 表单组件 v-model 双向绑定  :model绑定表单对象 -->
      <el-form ref="myForm" :model="publishForm" :rules="publishRules" style="margin-left:50px" label-width="100px">
+
          <el-form-item label="标题" prop="title">
             <el-input v-model="publishForm.title" placeholder="请输入标题" style="width:50%"></el-input>
          </el-form-item>
+
          <el-form-item label="内容" prop="content">
-            <el-input v-model="publishForm.content" placeholder="请输入内容" type="textarea" :rows='4'></el-input>
+            <quill-editor v-model="publishForm.content" style="height:300px;width:750px"></quill-editor>
          </el-form-item>
-         <el-form-item label="封面" prop="cover">
+
+         <el-form-item label="封面" prop="cover" style="margin-top:120px">
              <el-radio-group v-model="publishForm.cover.type">
                  <el-radio :label="1">单图</el-radio>
                  <el-radio :label="3">三图</el-radio>
@@ -22,6 +25,7 @@
                  <el-radio :label="-1">自动</el-radio>
              </el-radio-group>
          </el-form-item>
+
          <el-form-item label="频道" prop="channel_id" >
              <el-select placeholder="请选择频道" v-model="publishForm.channel_id">
                <!-- 下拉选项 -->
@@ -29,11 +33,13 @@
                <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
              </el-select>
          </el-form-item>
+
          <el-form-item>
-             <!-- true和false代表是不是草稿 -->
+             <!-- true和false代表是不是草稿 绑定发布事件 -->
              <el-button @click="publish(false)" type="primary">发布</el-button>
              <el-button @click="publish(true)">存入草稿</el-button>
          </el-form-item>
+
      </el-form>
  </el-card>
 </template>
@@ -42,18 +48,20 @@
 export default {
   data () {
     return {
+      // 接收请求返回的频道
       channels: [],
+      // 表单数据对象
       publishForm: {
-        //   表单数据对象
         title: '',
         content: '',
         cover: {
-          type: -1, // -1自动 0 无图  1 一图  3 三图
+          type: -1, // -1自动  0无图   1一图   3三图
           images: [] // 字符串数据  对应type  个数
         },
         channel_id: null
       },
       publishRules: {
+        // required 表示必填
         title: [{ required: true, message: '标题不能为空', trigger: 'blur' },
           { min: 5, max: 30, message: '标题应该在5到30个字符之间' }],
         content: [{ required: true, message: '内容不能为空', trigger: 'blur' }],
@@ -70,7 +78,7 @@ export default {
         this.publishForm = res.data
       })
     },
-    //  获取文章类别
+    //  获取频道数据
     getChannels () {
       this.$axios({
         url: '/channels'
@@ -79,12 +87,16 @@ export default {
       })
     },
     publish (flag) {
-    // 校验后发布
-    // validate 两种调用  回调,promise
-    //   this.$refs.myForm.validate(function (isOk) {
-    //     if (isOk) {}
-    //   })
+      // flag为绑定事件传过来的参数,用于判断是否为草稿
+      // 校验后发布
+      // validate 两种调用  1回调 ，2promise
+      //   this.$refs.myForm.validate(function (isOk) {
+      //     if (isOk) {}
+      //   })
       this.$refs.myForm.validate().then(() => {
+        //  接收参数 解构赋值
+        // 有id修改 无id发布
+        // draft 为false是发布  true是存草稿
         const { articleId } = this.$route.params
         this.$axios({
           url: articleId ? `/articles/${articleId}` : 'articles',
@@ -138,7 +150,7 @@ export default {
   created () {
     this.getChannels()
     // 解构赋值 获取参数id
-    const { articleId } = this.$router.params
+    const { articleId } = this.$route.params // articleId是 路由参数中定义的
     // if (articleId) {
     //   this.getArticleById(articleId)
     // }

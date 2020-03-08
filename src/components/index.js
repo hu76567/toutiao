@@ -4,11 +4,21 @@
 import layoutAhead from './home/layout-ahead'
 import layoutAside from './home/layout-aside'
 import BreadCrumb from './common/bread-crumb'
+
+// 引入富文本编辑器
+import VueQuillEditor from 'vue-quill-editor'
+// require styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
 export default {
   install: function (Vue) {
     //  全局注册组件,任意位置都可以用
     Vue.component('layout-ahead', layoutAhead)
     Vue.component('layout-aside', layoutAside)
     Vue.component('bread-crumb', BreadCrumb) // 面包屑组件
+    // 注册富文本编辑器
+    Vue.use(VueQuillEditor)
   }
 }

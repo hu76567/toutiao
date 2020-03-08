@@ -38,6 +38,7 @@
      <el-row class="total" type="flex" align="middle">
        <span>共找到条999符合条件的内容</span>
      </el-row>
+     <!-- 循环返回数据 渲染到页面 -->
      <div class="article-item" v-for="item in list" :key="item.id.toString()">
        <!-- 左侧 -->
        <div class="left">
@@ -57,15 +58,15 @@
          <span @click="delMaterial(item.id.toString())"><i class="el-icon-delete"></i>删除</span>
        </div>
      </div>
-     <!-- 分页组件 -->
+     <!-- 分页组件 监听翻页事件 -->
      <el-row type="flex" justify="center" style="height:80px" align="middle">
           <el-pagination
           :current-page="page.currentPage"
           :page-size="page.pageSize"
           :total="page.total"
           @current-change="changePage"
-           background layout="prev,pager,next">
-
+          background
+          layout="prev,pager,next">
           </el-pagination>
      </el-row>
  </el-card>
@@ -133,11 +134,10 @@ export default {
     },
     // 条件查询   监听值改变
     changeCondition () {
-      // 组装条件
-      // 改变条件的时候页码要重置为第一页
+      // 规定获取条件
       const params = {
         // 传5为选择全部
-        page: this.page.currentPage,
+        page: this.page.currentPage, //
         per_page: this.page.pageSize,
         status: this.searchForm.status === 5 ? null : this.searchForm.status,
         channel_id: this.searchForm.channel_id,
@@ -181,7 +181,7 @@ export default {
     this.getChannels()
   },
   filters: {
-  // 过滤器
+    // 过滤器
     filterStatus (value) {
       switch (value) {
         case 0:
