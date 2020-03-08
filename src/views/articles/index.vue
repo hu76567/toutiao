@@ -48,9 +48,12 @@
             <span class="date">{{item.pubdate}}</span>
           </div>
        </div>
-       <!-- 右侧 -->
+       <!-- 右侧  -->
        <div class="right">
-         <span><i class="el-icon-edit"></i>修改</span>
+         <!-- 第一种事件绑方法 -->
+         <!-- <span @click="toPublish"><i class="el-icon-edit"></i>修改</span> -->
+         <!-- 第二种直接跳转  需要向发布页传值 -->
+         <span @click="$router.push(`/home/publish/${item.id.toString()}`)"><i class="el-icon-edit"></i>修改</span>
          <span @click="delMaterial(item.id.toString())"><i class="el-icon-delete"></i>删除</span>
        </div>
      </div>
@@ -91,6 +94,10 @@ export default {
     }
   },
   methods: {
+    // 调到发布页面
+    toPublish () {
+      this.$router.push('/home/publish')
+    },
     // 删除
     delMaterial (id) {
       // alert(id)

@@ -22,7 +22,8 @@ const routes = [{
     }, {
       // 采用按需加载的方式引入
       // 发布文章
-      path: 'publish',
+      // 加问号 有参数能匹配，诶呦也能匹配,用于修改跳转到发布页
+      path: 'publish/:articleId?',
       component: () => import('@/views/publish')
     }, {
       // 内容列表
