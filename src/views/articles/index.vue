@@ -7,8 +7,9 @@
      </bread-crumb>
      <el-form style="margin-left:50px">
          <el-form-item label="文章状态:">
-             <!-- 单选框组 -->
-             <el-radio-group v-model="searchForm.status">
+             <!-- 单选框组  @change筛选搜索的第一种监听每个值的改变-->
+             <!-- <el-radio-group v-model="searchForm.status"  @change="changeCondition"> -->
+            <el-radio-group v-model="searchForm.status">
              <!-- 单选框选项 -->
              <el-radio :label="5">全部</el-radio>
              <el-radio :label="0">草稿</el-radio>
@@ -18,7 +19,8 @@
              </el-radio-group>
          </el-form-item>
          <el-form-item label="频道类别:">
-             <el-select placeholder="请选择频道" v-model="searchForm.channel_id">
+             <!-- <el-select placeholder="请选择频道" v-model="searchForm.channel_id"  @change="changeCondition"> -->
+               <el-select placeholder="请选择频道" v-model="searchForm.channel_id">
                <!-- label是显示值,value是绑定的值 -->
                <el-option v-for="item in channels" :key="item.id" :label="item.name" :value="item.id">
 
@@ -26,14 +28,15 @@
              </el-select>
          </el-form-item>
          <el-form-item label="日期范围:">
-             <el-date-picker type="daterange" v-model="searchForm.dateRange">
+             <!-- <el-date-picker type="daterange" value-format="yyyy-MM-dd" @change="changeCondition" v-model="searchForm.dateRange"> -->
+                <el-date-picker type="daterange" value-format="yyyy-MM-dd" v-model="searchForm.dateRange">
 
              </el-date-picker>
          </el-form-item>
      </el-form>
      <!-- 文章主体结构 -->
      <el-row class="total" type="flex" align="middle">
-       <span>共找到条符合条件的内容</span>
+       <span>共找到条999符合条件的内容</span>
      </el-row>
      <div class="article-item" v-for="item in list" :key="item.id.toString()">
        <!-- 左侧 -->
@@ -61,7 +64,7 @@ export default {
     //   定义表单数据对象
       searchForm: {
         // 0 草稿 1待审核 2审核通过 3审核失败 5全部
-        status: 0,
+        status: 5,
         channel_id: null,
         dateRange: [] // 日期范围
       },
@@ -71,6 +74,27 @@ export default {
     }
   },
   methods: {
+    // 条件查询   监听值改变
+    changeCondition () {
+      // 组装条件
+      const params = {
+        // 传5为选择全部
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        channel_id: this.searchForm.channel_id,
+        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+      }
+      // 调用接口 传输条件
+      this.getArticles(params)
+      // 用封装好的函数来实现
+      // 一样的功能
+      // this.$axios({
+      //   url: '/articles',
+      //   params: params
+      // }).then(res => {
+      //   this.list = res.data.results
+      // })
+    },
     getChannels () {
       this.$axios({
         url: 'channels'
@@ -80,9 +104,10 @@ export default {
       })
     },
     // 获取文章列表
-    getArticles () {
+    getArticles (params) {
       this.$axios({
-        url: '/articles'
+        url: '/articles',
+        params
       }).then(res => {
         this.list = res.data.results
       })
@@ -118,6 +143,16 @@ export default {
           return ''
         case 3:
           return 'danger'
+      }
+    }
+  },
+  watch: {
+    // 条件搜索第二种方法 深度检测
+    searchForm: {
+      deep: true, // 深度检测 ,深度检测serahForm中的数据变化
+      handler () { // 数据发生任何变化都会触发更新
+        //  统一调用改变条件方法
+        this.changeCondition()
       }
     }
   }
