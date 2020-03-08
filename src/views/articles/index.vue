@@ -51,9 +51,20 @@
        <!-- 右侧 -->
        <div class="right">
          <span><i class="el-icon-edit"></i>修改</span>
-         <span><i class="el-icon-delete"></i>删除</span>
+         <span @click="delMaterial(item.id.toString())"><i class="el-icon-delete"></i>删除</span>
        </div>
      </div>
+     <!-- 分页组件 -->
+     <el-row type="flex" justify="center" style="height:80px" align="middle">
+          <el-pagination
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          :total="page.total"
+          @current-change="changePage"
+           background layout="prev,pager,next">
+
+          </el-pagination>
+     </el-row>
  </el-card>
 </template>
 
@@ -61,7 +72,13 @@
 export default {
   data () {
     return {
-    //   定义表单数据对象
+      page: {
+        // 分页
+        currentPage: 1,
+        pageSize: 10,
+        total: 0
+      },
+      //   定义表单数据对象
       searchForm: {
         // 0 草稿 1待审核 2审核通过 3审核失败 5全部
         status: 5,
@@ -74,15 +91,51 @@ export default {
     }
   },
   methods: {
+    // 删除
+    delMaterial (id) {
+      // alert(id)
+      this.$confirm('确定删除此条数据么?', '提示').then(() => {
+      //  进入then表示点击了确定 ,调用接口
+        this.$axios({
+          url: `/articles/${id}`,
+          method: 'delete'
+        }).then(() => {
+          // 需要带着条件去加载
+          this.changeCondition()
+        }).catch(() => {
+          this.$messsage.error('删除失败')
+        })
+      })
+    },
+    // 翻页事件
+    changePage (newPage) {
+      this.page.currentPage = newPage
+      // const params = {
+      //   // 传5为选择全部
+      //   page: this.page.currentPage,
+      //   per_page: this.page.pageSize,
+      //   status: this.searchForm.status === 5 ? null : this.searchForm.status,
+      //   channel_id: this.searchForm.channel_id,
+      //   begin_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+      //   end_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+      // }
+      // this.getArticles(params)
+
+      // 代码重复,就可以直接直接调用
+      this.changeCondition()
+    },
     // 条件查询   监听值改变
     changeCondition () {
       // 组装条件
+      // 改变条件的时候页码要重置为第一页
       const params = {
         // 传5为选择全部
+        page: this.page.currentPage,
+        per_page: this.page.pageSize,
         status: this.searchForm.status === 5 ? null : this.searchForm.status,
         channel_id: this.searchForm.channel_id,
-        begin_pubdate: this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
-        end_pubdate: this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
+        begin_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length ? this.searchForm.dateRange[0] : null,
+        end_pubdate: this.searchForm.dateRange && this.searchForm.dateRange.length > 1 ? this.searchForm.dateRange[1] : null
       }
       // 调用接口 传输条件
       this.getArticles(params)
@@ -107,9 +160,10 @@ export default {
     getArticles (params) {
       this.$axios({
         url: '/articles',
-        params
+        params: params
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     }
   },
@@ -152,6 +206,8 @@ export default {
       deep: true, // 深度检测 ,深度检测serahForm中的数据变化
       handler () { // 数据发生任何变化都会触发更新
         //  统一调用改变条件方法
+        // 重置页码
+        this.page.currentPage = 1
         this.changeCondition()
       }
     }
