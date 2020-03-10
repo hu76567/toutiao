@@ -17,6 +17,10 @@ const routes = [{
   // 在一级路由表下的children中配置二级路由表
   children: [
     {
+      path: '*', // 路由无法匹配的时候，进入404
+      comment: () => import('@/views/404.vue')
+    },
+    {
       path: '', // 二级路由不填写代表二级路由默认组件
       component: Sechome
     }, {
