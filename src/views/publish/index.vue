@@ -75,6 +75,30 @@ export default {
       }
     }
   },
+  watch: {
+  // 捕捉路由参数变化 用watch来监听
+    //  路由在初始化之后,会把￥route也放在页面data中
+    $route: function (to, form) {
+      // to表示新的路由地址对象
+      // form表示旧的路由地址对象
+      // 根据to属性中的params中的articleId有或无 来决定改不改变数据
+      if (to.params.articleId) {
+        // 有id去根据id获取数据
+        this.getArticleById(to.params.articleId)
+      } else {
+        // 不存在id则显示默认值
+        this.publishForm = {
+          title: '',
+          content: '',
+          cover: {
+            type: 0, // -1自动  0无图   1一图   3三图
+            images: [] // 字符串数据  对应type  个数
+          },
+          channel_id: null
+        }
+      }
+    }
+  },
   methods: {
     receiveImg (url, index) {
       //  接收到图片数据  更新images的视图

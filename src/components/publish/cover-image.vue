@@ -45,17 +45,17 @@ export default {
 <style lang="less" scoped>
   .cover-image{
       display: flex;
-      margin: 20px 100px;
+      margin: 20px auto 20px 100px;
       .cover-image-item{
-          border: 1px solid #cccccc;
-          width: 250px;
-          height: 230px;
-          padding: 20px;
-          img {
-            width: 100%;
-            height: 100%;
-          }
-
+        margin-left:15px ;
+        border: 1px solid #cccccc;
+        width: 220px;
+        height: 200px;
+        padding: 20px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
   }
 </style>
