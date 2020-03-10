@@ -1,5 +1,5 @@
 <template>
- <el-card class="articles">
+ <el-card class="articles" v-loading="loading">
      <bread-crumb slot="header">
         <template slot="title">
             文章列表
@@ -165,12 +165,14 @@ export default {
     },
     // 获取文章列表
     getArticles (params) {
+      this.loading = true
       this.$axios({
         url: '/articles',
         params: params
       }).then(res => {
         this.list = res.data.results
         this.page.total = res.data.total_count
+        this.loading = false
       })
     }
   },

@@ -18,13 +18,19 @@
          </el-form-item>
 
          <el-form-item label="封面" prop="cover" style="margin-top:120px">
-             <el-radio-group v-model="publishForm.cover.type">
+           <!-- 监听type变化 -->
+             <el-radio-group v-model="publishForm.cover.type" @change="changeType">
                  <el-radio :label="1">单图</el-radio>
                  <el-radio :label="3">三图</el-radio>
                  <el-radio :label="0">无图</el-radio>
                  <el-radio :label="-1">自动</el-radio>
              </el-radio-group>
          </el-form-item>
+
+         <!-- 放置封面组件 将images的值传给 cover-image -->
+           <cover-image @selectTwoImg="receiveImg" :list="publishForm.cover.images">
+
+           </cover-image>
 
          <el-form-item label="频道" prop="channel_id" >
              <el-select placeholder="请选择频道" v-model="publishForm.channel_id">
@@ -55,7 +61,7 @@ export default {
         title: '',
         content: '',
         cover: {
-          type: -1, // -1自动  0无图   1一图   3三图
+          type: 0, // -1自动  0无图   1一图   3三图
           images: [] // 字符串数据  对应type  个数
         },
         channel_id: null
@@ -70,6 +76,24 @@ export default {
     }
   },
   methods: {
+    receiveImg (url, index) {
+      //  接收到图片数据  更新images的视图
+      // 仅仅拿到了一个url地址  但是不知道更新哪一条记录
+      // 应该点击哪一张就更新哪一张=>需要带索引去选择,也就是要更换哪个格子的图片
+      // splice(索引,删除的个数,要替换的内容)
+      // 简单写法
+      this.publishForm.cover.images.splice(index, 1, url)
+    },
+    // 监听type变化的事件
+    changeType () {
+      if (this.publishForm.cover.type === 1) {
+        this.publishForm.cover.images = [''] // 没有选择图片,为空
+      } else if (this.publishForm.cover.type === 3) {
+        this.publishForm.cover.images = ['', '', '']
+      } else {
+        this.publishForm.cover.images = [] // 无图或自动 为空
+      }
+    },
     getArticleById (id) {
       // 根据id 获取数据
       this.$axios({

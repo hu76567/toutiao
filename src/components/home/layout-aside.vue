@@ -29,9 +29,9 @@
             </template>
              <!-- 二级菜单项 -->
              <el-menu-item index="/home/picture">图文数据</el-menu-item>
+             <el-menu-item index="/home/fanslist">粉丝列表</el-menu-item>
              <el-menu-item index="/home/fansinfo">粉丝概况</el-menu-item>
              <el-menu-item index="/home/fansphoto">粉丝画像</el-menu-item>
-             <el-menu-item index="/home/fanslist">粉丝列表</el-menu-item>
            </el-submenu>
          <el-menu-item index="/home/account">
              <i class="el-icon-user-solid"></i>

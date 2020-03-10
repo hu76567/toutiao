@@ -4,7 +4,8 @@
 import layoutAhead from './home/layout-ahead'
 import layoutAside from './home/layout-aside'
 import BreadCrumb from './common/bread-crumb'
-
+import CoverImage from './publish/cover-image'
+import SelectImage from './publish/select-image'
 // 引入富文本编辑器
 import VueQuillEditor from 'vue-quill-editor'
 // require styles
@@ -20,5 +21,7 @@ export default {
     Vue.component('bread-crumb', BreadCrumb) // 面包屑组件
     // 注册富文本编辑器
     Vue.use(VueQuillEditor)
+    Vue.component('cover-image', CoverImage)
+    Vue.component('select-image', SelectImage)
   }
 }

@@ -3,7 +3,7 @@
      <el-col class="left" :span="12">
          <i class="el-icon-s-fold"></i>
          <span>
-             辽宁啥也不是股份有限公司
+             啥也不是
          </span>
      </el-col>
      <el-col class="right" :span="12">

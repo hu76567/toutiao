@@ -37,6 +37,26 @@ const routes = [{
       // 素材管理
       path: 'material',
       component: () => import('@/views/material')
+    }, {
+      // 图文数据
+      path: 'picture',
+      component: () => import('@/views/picture')
+    }, {
+      // 粉丝列表
+      path: 'fanslist',
+      component: () => import('@/views/fanslist')
+    }, {
+      // 粉丝概况
+      path: 'fansinfo',
+      component: () => import('@/views/fansinfo')
+    }, {
+      // 粉丝画像
+      path: 'fansphoto',
+      component: () => import('@/views/fansphoto')
+    }, {
+      // 账户信息
+      path: 'account',
+      component: () => import('@/views/account')
     }
   ]
 }, {
