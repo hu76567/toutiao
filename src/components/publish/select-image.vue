@@ -55,21 +55,22 @@ export default {
 
         }
       }).then(res => {
-        this.list = res.data.results
-        this.page.total = res.data.total_count
+        this.list = res.data.results // 获取全部素材的数据
+        this.page.total = res.data.total_count // 将总数赋值给页码变量
       })
     },
     // 翻页事件监听
     changePage (newPage) {
-      this.page.currentPage = newPage
-      this.getAllImg()
+      this.page.currentPage = newPage // 赋值新页码
+      this.getAllImg() // 重新获取数据
     },
     // 将url传递给上层组件
     // 在脚手架中自定义事件大小写通用
     clickImg (url) {
+      // 需要将url参数传递给上层组件
       this.$emit('selectOneImg', url) // 将url传出
     },
-    // 调用上传接口
+    // 上传素材,调用上传接口,与素材管理里面的一样
     uploadImg (params) {
       const data = new FormData()
       data.append('image', params.file)

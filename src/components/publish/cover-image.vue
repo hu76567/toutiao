@@ -8,7 +8,7 @@
             <img :src="item ? item : defaultImg" alt="">
         </div>
 
-        <!-- 弹层组件 -->
+        <!-- 弹层组件 visible控制是否显示对话框 -->
         <el-dialog @close="dialogVisible=false" :visible="dialogVisible">
             <!-- 封装一个选择图片的组件 -->
             <!-- 监听自定义事件 -->
@@ -30,7 +30,7 @@ export default {
   methods: {
     openDialog (index) {
       this.dialogVisible = true
-      this.selectIndex = index // 记录点击的那张蹄片
+      this.selectIndex = index // 记录点击的是哪个块块
     },
     receiveImg (url) {
     //  封面组件接收到图片选择组件传过来的图片地址   不能修改,需要再次传递

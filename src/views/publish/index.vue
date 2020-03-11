@@ -29,7 +29,7 @@
 
          <!-- 放置封面组件 将images的值传给 cover-image -->
            <cover-image @selectTwoImg="receiveImg" :list="publishForm.cover.images">
-
+          <!-- 此处是两层组件嵌套 -->
            </cover-image>
 
          <el-form-item label="频道" prop="channel_id" >
@@ -110,6 +110,7 @@ export default {
     },
     // 监听type变化的事件
     changeType () {
+      // 根绝type值对images进行控制
       if (this.publishForm.cover.type === 1) {
         this.publishForm.cover.images = [''] // 没有选择图片,为空
       } else if (this.publishForm.cover.type === 3) {

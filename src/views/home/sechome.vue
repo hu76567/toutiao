@@ -1,9 +1,6 @@
 <template>
   <div class="sechome">
      <el-carousel  indicator-position="none" arrow="never" class="bg" height="767.33px">
-        <el-carousel-item v-for="item in list" :key="item">
-          <img class="bgi"  :src="item" alt="">
-        </el-carousel-item>
          <el-carousel type="card"  height="400px">
        <el-carousel-item v-for="item in list" :key="item">
           <img class="zmd"  :src="item" alt="">
@@ -33,9 +30,5 @@ export default {
    .zmd{
       /* opacity:0.7; */
       height: 400px;
-   }
-   .bgi{
-     filter: blur(2px);
-     height: 100%;
    }
 </style>

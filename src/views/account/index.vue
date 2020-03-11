@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import eventBus from '@/utils/eventBus'
 export default {
   data () {
     return {
@@ -46,7 +47,7 @@ export default {
       rules: {
         name: [
           { required: true, message: '用户名不能为空', trigger: 'blur' },
-          { min: 1, max: 7, message: '用户名长度在1-7位', trigger: 'blur' }
+          { min: 1, max: 7, message: '用户名长度在7位', trigger: 'blur' }
         ],
         email: [{ required: true, message: '邮箱不能为空', trigger: 'blur' },
           {
@@ -75,6 +76,10 @@ export default {
           data: this.formData
         }).then(() => {
           this.$message.success('保存用户信息成功')
+          // 广播一个消息  updateUser
+          eventBus.$emit('updateUser', () => {
+            this.getUserInfo()
+          })
         }).catch(() => {
           this.$message.error('保存用户信息失败')
         })
@@ -91,6 +96,7 @@ export default {
         this.formData.photo = res.data.photo
         // 处理非关系型组件之间的传值
         // eventBus/vuex
+        eventBus.$emit('updateUser')
       })
     }
   },

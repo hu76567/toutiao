@@ -26,6 +26,8 @@
 </template>
 
 <script>
+// 引入公共事件池
+import eventBus from '@/utils/eventBus'
 export default {
   data () {
     return {
@@ -46,6 +48,13 @@ export default {
         localStorage.removeItem('user-token') // 清除token
         this.$router.push('/login')
       }
+    },
+    getUserInfo () {
+      this.$axios({
+        url: '/user/profile'
+      }).then(res => {
+        this.userInfo = res.data
+      })
     }
   },
   // 实例化之后,钩子函数,获取个人信息
@@ -54,6 +63,12 @@ export default {
       url: '/user/profile'
     }).then(res => {
       this.userInfo = res.data
+    })
+    // this.getUserInfo()  //正常加载
+    eventBus.$on('updateUser', () => {
+      // 有人触发事件就回进入到回调函数
+      // 重新拉取下
+      this.getUserInfo()
     })
   }
 }
