@@ -1,17 +1,18 @@
 <template>
   <div class="sechome">
-     <el-carousel  indicator-position="none" arrow="never" class="bg" height="767.33px">
-         <el-carousel type="card"  height="400px">
-       <el-carousel-item v-for="item in list" :key="item">
-          <img class="zmd"  :src="item" alt="">
-      </el-carousel-item>
-  </el-carousel>
-  </el-carousel>
-
+     <el-carousel :interval="4000" type="card" height="330px">
+        <el-carousel-item v-for="item in list" :key="item">
+          <img :src="item" alt="">
+        </el-carousel-item>
+     </el-carousel>
+     <!-- 放置图标组件 -->
+   <div ref="myChart" class="echarts"></div>
   </div>
 </template>
 
 <script>
+// 引入Echarts图标组件
+import Echarts from 'echarts'
 export default {
   data () {
     return {
@@ -22,13 +23,45 @@ export default {
         'http://pic1.win4000.com/wallpaper/0/570ef927b03d9.jpg',
         'http://10wallpaper.com/wallpaper/1920x1080/1603/Kobe_Bryant_Lakers-2016_NBA_Basketball_HD_Wallpapers_1920x1080.jpg']
     }
+  },
+  mounted () {
+    // 在页面渲染之后,获取dom，用来放置echarts
+    // 然后进行图表实例化
+    this.myChart = Echarts.init(this.$refs.myChart)
+    // this.myChart就是图标对象
+    this.myChart.setOption(
+      // 渲染图表
+      {
+        xAxis: {
+          type: 'category',
+          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [{
+          data: [820, 932, 901, 934, 1290, 1330, 1320],
+          type: 'line'
+        }]
+      }
+    )
   }
 }
 </script>
 
 <style lang="less">
-   .zmd{
-      /* opacity:0.7; */
-      height: 400px;
-   }
+.sechome {
+  height: 100%;
+  background-size: cover;
+  background-image: url('../../assets/img/login_bg.jpg');
+  img{
+    width: 100%;
+    height: 100%;
+  }
+  .echarts{
+    width: 600px;
+    height: 400px;
+    background-color: skyblue;
+  }
+}
 </style>
