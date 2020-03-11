@@ -1,10 +1,13 @@
 <template>
   <div class="layout-aside">
       <div class="title">
-          <img src="../../assets/img/logo_admin.png" alt="">
+        <!-- logo也是动态的 -->
+        <!-- 折叠显示小logo,展开显示大图 -->
+          <img :src="collapse? smaImg : bigImg" alt="">
       </div>
       <!-- 导航菜单 开启路由模式简写 router -->
-      <el-menu :router="true" background-color="#323745" text-color="#adafb5">
+      <!-- 此时collapse是从collapse传过来的状态 -->
+      <el-menu :collapse="collapse" :router="true" background-color="#323745" text-color="#adafb5">
          <el-menu-item index="/home">
              <i class="el-icon-s-home"></i>
              <span>首页</span>
@@ -43,27 +46,30 @@
 
 <script>
 export default {
-
+  props: ['collapse'], // 接收父组件传过来的collapse
+  data () {
+    return {
+      bigImg: require('../../assets/img/logo_admin.png'),
+      smaImg: require('../../assets/img/toutiao.png')
+    }
+  }
 }
 </script>
 
 <style lang='less' scoped>
   .layout-aside{
-    position: fixed;
-    top: 0;
-    left: 0;
-      width: 240px;
+      // width: 240px;
       height: 100vh;
       background-color: #2e2f32;
       .title {
-          text-align: center;
-          padding: 20px 0;
-          img{
-              height: 35px;
-          }
+        text-align: center;
+        padding: 10px 0;
+        img{
+         height: 35px;
+        }
       }
       .el-menu{
-          border-right: none;
+        border-right: none;
       }
   }
 </style>

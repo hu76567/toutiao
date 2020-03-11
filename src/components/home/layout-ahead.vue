@@ -1,7 +1,11 @@
 <template>
   <el-row align="middle" type="flex" class="layout-ahead">
      <el-col class="left" :span="12">
-         <i class="el-icon-s-fold"></i>
+       <!-- 图标是动态的 -->
+       <!-- :class="{class名称:布尔值,class名称:布尔值}" -->
+       <!-- 布尔值为true class名称有效,为false失效 -->
+       <!-- 展开的时候向左,不展开的时候向右 -->
+         <i @click="collapse=!collapse" :class="{'el-icon-s-fold':!collapse,'el-icon-s-unfold':collapse}"></i>
          <span>
              啥也不是
          </span>
@@ -31,7 +35,15 @@ import eventBus from '@/utils/eventBus'
 export default {
   data () {
     return {
-      userInfo: {} // 用来接收个人信息
+      userInfo: {}, // 用来接收个人信息
+      collapse: false // 开始不是折叠的
+    }
+  },
+  watch: {
+    // 监听data中数据变化
+    collapse () {
+      // 监听折叠状态的变化,触发事件,告诉侧边栏
+      eventBus.$emit('changeCollapse')
     }
   },
   methods: {
