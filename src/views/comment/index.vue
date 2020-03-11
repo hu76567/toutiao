@@ -57,10 +57,10 @@ export default {
       // 重新拉取评论数据
       this.getComment()
     },
-    getComment () {
+    async getComment () {
       // 数据没回来前打开加载状态
       this.loading = true
-      this.$axios({
+      const res = await this.$axios({
         url: '/articles',
         // params 传get参数,也就是query参数
         // data   传body参数,也就是请求体参数,
@@ -69,13 +69,12 @@ export default {
           page: this.page.currentPage,
           per_page: this.page.pageSize
         }
-      }).then(res => {
-        // console.log(res)
-        this.list = res.data.results
-        this.page.total = res.data.total_count
-        // 有返回值关闭加载状态
-        this.loading = false
       })
+      // console.log(res)
+      this.list = res.data.results
+      this.page.total = res.data.total_count
+      // 有返回值关闭加载状态
+      this.loading = false
     },
     // 定义格式化参数
     // row=>当前的一行数据
@@ -89,28 +88,30 @@ export default {
     // 实现评论状态切换
     // 先询问
       const mess = row.comment_status ? '关闭' : '开启'
-      this.$confirm(`您是否确定${mess}评论`, '温馨提示').then(() => {
-        // 调用更改接口
-        this.$axios({
-          url: '/comments/status',
-          method: 'put',
-          // query参数
-          params: {
-            article_id: row.id.toString() // 将处理后的数据转化成字符串
+      this.$confirm(`您是否确定${mess}评论`, '温馨提示').then(async () => {
+        // 捕获async 的catch
+        try {
+          // 调用更改接口
+          await this.$axios({
+            url: '/comments/status',
+            method: 'put',
+            // query参数
+            params: {
+              article_id: row.id.toString() // 将处理后的数据转化成字符串
             // 后端会自动转成大数字
-          },
-          // body参数
-          data: {
-            allow_comment: !row.comment_status
-          }
-        }).then(() => {
+            },
+            // body参数
+            data: {
+              allow_comment: !row.comment_status
+            }
+          })
           // 成功  提示消息,拉取数据
           this.$message.success(`当前评论功能已${mess}`)
           this.getComment()
-        }).catch(() => {
+        } catch (error) {
           // 失败时
           this.$message.error(`${mess}评论失败`)
-        })
+        }
       })
     }
   },

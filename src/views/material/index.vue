@@ -90,41 +90,42 @@ export default {
       this.dialogVisible = true
     },
     // 收藏和取消收藏
-    collectOrCancel (row) {
-      this.$axios({
-        method: 'put',
-        url: `/user/images/${row.id}`,
-        data: {
+    async collectOrCancel (row) {
+      try {
+        await this.$axios({
+          method: 'put',
+          url: `/user/images/${row.id}`,
+          data: {
           // 放置body参数
-          collect: !row.is_collected
-        }
-      }).then(() => {
+            collect: !row.is_collected
+          }
+        })
         // 重新加载
         var mes = row.is_collected ? '已取消' : '已'
         this.$message.success(`${mes}收藏`)
         this.getMaterial()
-      }).catch(() => {
+      } catch (error) {
         this.$message.error('收藏失败')
-      })
+      }
     },
     // 删除素材
-    delMaterial (row) {
-      this.$confirm('确定要删除么?', '提示').then(() => {
-        this.$axios({
+    async delMaterial (row) {
+      await this.$confirm('确定要删除么?', '提示')
+      try {
+        await this.$axios({
           method: 'delete',
           url: `/user/images/${row.id}`,
           data: {
           // 放置body参数
             collect: !row.is_collected
           }
-        }).then(() => {
-        // 重新加载
-          this.$message.success('已删除')
-          this.getMaterial()
-        }).catch(() => {
-          this.$message.error('删除失败')
         })
-      })
+        // 重新加载
+        this.$message.success('已删除')
+        this.getMaterial()
+      } catch (error) {
+        this.$message.error('删除失败')
+      }
     },
     // 换页
     pageChange (newPage) {
@@ -132,9 +133,9 @@ export default {
       this.getMaterial() // 获取数据
     },
     // 加载素材
-    getMaterial () {
+    async getMaterial () {
       this.loading = true
-      this.$axios({
+      const res = await this.$axios({
         url: '/user/images',
         params: {
         // 根据actName获取数据
@@ -142,12 +143,11 @@ export default {
           page: this.page.currentPage,
           per_page: this.page.pageSize
         }
-      }).then(res => {
-        // console.log(res.data.results)
-        this.list = res.data.results // 将返回的数据复制给data
-        this.page.total = res.data.total_count
-        this.loading = false
       })
+      // console.log(res.data.results)
+      this.list = res.data.results // 将返回的数据复制给data
+      this.page.total = res.data.total_count
+      this.loading = false
     },
     // 切换页签的事件
     cdTab () {
@@ -160,21 +160,22 @@ export default {
     // params.file就是要上传的文件
     // 接口类型是formdata
     // 上传素材
-    uploadImg (params) {
-      const data = new FormData()
-      data.append('image', params.file)
-      console.log(data)
-      this.$axios({
-        url: '/user/images',
-        method: 'post',
-        data: data
-      }).then(() => {
+    async uploadImg (params) {
+      try {
+        const data = new FormData()
+        data.append('image', params.file)
+        // console.log(data)
+        await this.$axios({
+          url: '/user/images',
+          method: 'post',
+          data: data
+        })
         this.$message.success('上传成功')
         // 成功要重新拉取数据
         this.getMaterial()
-      }).catch(() => {
+      } catch (error) {
         this.$message.error('上传失败')
-      })
+      }
     }
   },
   created () {
