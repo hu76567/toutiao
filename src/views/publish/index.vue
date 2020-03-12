@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { getChannels } from '@/api/channels'
 export default {
   data () {
     return {
@@ -128,12 +129,10 @@ export default {
       })
     },
     //  获取频道数据
-    getChannels () {
-      this.$axios({
-        url: '/channels'
-      }).then(res => {
-        this.channels = res.data.channels
-      })
+    async getChannels () {
+      const res = await getChannels()
+      // 获取频道接口返回的数据
+      this.channels = res.data.channels
     },
     publish (flag) {
       // flag为绑定事件传过来的参数,用于判断是否为草稿

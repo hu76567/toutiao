@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import { getChannels } from '@/api/channels'
+import { getArticles } from '@/api/articles'
 export default {
   data () {
     return {
@@ -155,25 +157,17 @@ export default {
       //   this.list = res.data.results
       // })
     },
-    getChannels () {
-      this.$axios({
-        url: 'channels'
-      }).then(res => {
-        // 获取频道接口返回的数据
-        this.channels = res.data.channels
-      })
+    async getChannels () {
+      const res = await getChannels()
+      this.channels = res.data.channels
     },
     // 获取文章列表
-    getArticles (params) {
+    async getArticles (params) {
       this.loading = true
-      this.$axios({
-        url: '/articles',
-        params: params
-      }).then(res => {
-        this.list = res.data.results
-        this.page.total = res.data.total_count
-        this.loading = false
-      })
+      const res = await getArticles(params)
+      this.list = res.data.results
+      this.page.total = res.data.total_count
+      this.loading = false
     }
   },
   created () {

@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { getMaterial } from '@/api/material'
 export default {
   data () {
     return {
@@ -135,14 +136,11 @@ export default {
     // 加载素材
     async getMaterial () {
       this.loading = true
-      const res = await this.$axios({
-        url: '/user/images',
-        params: {
+      const res = await getMaterial({
         // 根据actName获取数据
-          collect: this.actName === 'collect',
-          page: this.page.currentPage,
-          per_page: this.page.pageSize
-        }
+        collect: this.actName === 'collect',
+        page: this.page.currentPage,
+        per_page: this.page.pageSize
       })
       // console.log(res.data.results)
       this.list = res.data.results // 将返回的数据复制给data
