@@ -25,7 +25,7 @@ const routes = [
       }, {
       // 采用按需加载的方式引入
       // 发布文章
-      // 加问号 有参数能匹配，诶呦也能匹配,用于修改跳转到发布页
+      // 加问号 有参数能匹配，也能匹配,用于修改跳转到发布页
         path: 'publish/:articleId?',
         component: () => import('@/views/publish')
       }, {
@@ -67,15 +67,7 @@ const routes = [
     name: 'Login',
     component: Login
   }
-// {
-//   // 按需加载
-//   path: '/about',
-//   name: 'About',
-//   // route level code-splitting
-//   // this generates a separate chunk (about.[hash].js) for this route
-//   // which is lazy-loaded when the route is visited.
-//   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-// }
+
 ]
 
 const router = new VueRouter({

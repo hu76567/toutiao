@@ -78,7 +78,7 @@ export default {
   },
   watch: {
   // 捕捉路由参数变化 用watch来监听
-    //  路由在初始化之后,会把￥route也放在页面data中
+    //  路由在初始化之后,会把$route也放在页面data中
     $route: function (to, form) {
       // to表示新的路由地址对象
       // form表示旧的路由地址对象
